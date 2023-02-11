@@ -1,0 +1,89 @@
+openapi: 3.0.0
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/YORDANLUISLP/TODO_LIST_API/1.0.0
+info:
+  description: TODO List application API
+  version: "1.0.0"
+  title: TODO List Application
+  contact:
+    email: yordanluislp@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: logged in
+    description: Secured Logged in users calls
+paths:
+  /todos:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - logged in
+      summary: get todo list for logged in user
+      operationId: retrieveTodos
+      description: |
+        Retrieve the todo list for the logged in user
+      responses:
+        '200':
+          description: return todo items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoItem'
+        '401':
+          description: user is not logged in
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - logged in
+      summary: adds an item to the list
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoItem'
+        description: Inventory item to add
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    TodoItem:
+      type: object
+      required:
+        - Id
+        - Title
+        - Description
+        - IsDone
+        - CreatedAt
+        - UpdatedAt
+      properties:
+        Id:
+          type: integer
+          example: 1
+        Title:
+          type: string
+          example: Do the dishes
+        Description:
+          type: string
+          example: I have to do the dishes today
+        IsDone:
+          type: boolean
+          example: true
+        CreatedAt:
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        UpdatedAt:
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
