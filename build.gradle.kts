@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.0.2"
 	id("io.spring.dependency-management") version "1.1.0"
+	id("jacoco")
 }
 
 group = "com.harbourspace"
@@ -20,3 +21,16 @@ dependencies {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+val jacocoTestReport = tasks.named<JacocoReport>("jacocoTestReport") {
+	executionData.from(fileTree(project.buildDir.absolutePath).include("jacoco/*.exec"))
+	classDirectories.setFrom(files(project.sourceSets.main.get().output))
+	sourceDirectories.setFrom(files(project.sourceSets.main.get().allSource.srcDirs))
+
+	reports {
+		xml.required.set(true)
+		csv.required.set(false)
+		html.required.set(true)
+	}
+}
+
