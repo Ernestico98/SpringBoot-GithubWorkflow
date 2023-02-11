@@ -58,8 +58,4 @@ class TodoControllerTest {
                 .andExpect(MockMvcResultMatchers.content().string(requestBody));
     }
 
-    @Test
-    public void BreakingTest() {
-        assert(false);
-    }
 }
