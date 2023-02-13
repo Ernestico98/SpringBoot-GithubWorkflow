@@ -3,6 +3,7 @@ plugins {
 	id("org.springframework.boot") version "3.0.2"
 	id("io.spring.dependency-management") version "1.1.0"
 	id("jacoco")
+	id("maven-publish")
 }
 
 group = "com.harbourspace"
@@ -17,6 +18,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
+
 
 tasks.withType<Test> {
 	useJUnitPlatform()
@@ -34,3 +36,24 @@ val jacocoTestReport = tasks.named<JacocoReport>("jacocoTestReport") {
 	}
 }
 
+publishing {
+	repositories {
+		maven {
+			name = "GitHubPackages"
+			url = uri("https://maven.pkg.github.com/Ernestico98/SpringBoot-GithubWorkflow")
+			credentials {
+				username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+				password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+			}
+		}
+	}
+}
+
+tasks.register("publishToGitHubPackages") {
+	group = "publishing"
+	dependsOn("publish")
+
+	doLast {
+		println("Publishing to GitHub Packages...")
+	}
+}
