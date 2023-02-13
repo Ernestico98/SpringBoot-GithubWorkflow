@@ -41,10 +41,10 @@ publishing {
 		maven {
 			name = "GitHubPackages"
 			url = uri("https://maven.pkg.github.com/Ernestico98/SpringBoot-GithubWorkflow")
-			credentials {
-				username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-				password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-			}
+//			credentials {
+//				username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+//				password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+//			}
 		}
 	}
 }
